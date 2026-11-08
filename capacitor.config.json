@@ -1,0 +1,8 @@
+{
+  "appId": "com.aurelius.sovereign.swarm",
+  "appName": "Aurelius Sovereign Swarm",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

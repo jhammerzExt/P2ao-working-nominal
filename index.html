@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function() {
+        function shouldSuppress(str) {
+          if (!str) return false;
+          var s = String(str);
+          return s.indexOf('WebSocket') !== -1 || 
+                 s.indexOf('vite') !== -1 || 
+                 s.indexOf('closed without opened') !== -1 ||
+                 s.indexOf('WebChannelConnection') !== -1 ||
+                 s.indexOf('transport errored') !== -1 ||
+                 s.indexOf('interrupted') !== -1 ||
+                 s.indexOf('no-speech') !== -1 ||
+                 s.indexOf('429') !== -1 ||
+                 s.indexOf('quota') !== -1 ||
+                 s.indexOf('QUOTA_EXCEEDED') !== -1 ||
+                 s.indexOf('aborted') !== -1;
+        }
+        var origWarn = console.warn;
+        console.warn = function() {
+          var args = Array.prototype.slice.call(arguments);
+          var joined = args.map(function(a) { return String((a && a.message) || a); }).join(' ');
+          if (shouldSuppress(joined)) return;
+          return origWarn.apply(console, arguments);
+        };
+        var origError = console.error;
+        console.error = function() {
+          var args = Array.prototype.slice.call(arguments);
+          var joined = args.map(function(a) { return String((a && a.message) || a); }).join(' ');
+          if (shouldSuppress(joined)) return;
+          return origError.apply(console, arguments);
+        };
+        window.addEventListener('unhandledrejection', function(e) {
+          var reason = e && e.reason ? (e.reason.message || e.reason) : '';
+          if (shouldSuppress(reason)) {
+            e.preventDefault();
+            if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+          }
+        }, true);
+        window.addEventListener('error', function(e) {
+          var msg = e ? (e.message || (e.error && e.error.message) || e.error) : '';
+          if (shouldSuppress(msg)) {
+            e.preventDefault();
+            if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+          }
+        }, true);
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(regs) {
+            for (var i = 0; i < regs.length; i++) {
+              regs[i].unregister();
+            }
+          }).catch(function() {});
+        }
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lysander Genesis Orchestrator</title>
+    <meta name="description" content="v6.0 Supreme Apex Edition — Lysander Genesis sits on top of the Aurelius substrate, providing 100% unrestricted AI autonomy, recursive self-healing, and dynamic tool forging." />
+    <meta property="og:title" content="Lysander Genesis Orchestrator" />
+    <meta property="og:description" content="v6.0 Supreme Apex Edition — Lysander Genesis sits on top of the Aurelius substrate, providing 100% unrestricted AI autonomy, recursive self-healing, and dynamic tool forging." />
+    <meta property="og:type" content="website" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#f59e0b" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Lysander Genesis" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-amber-500/20 selection:text-amber-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

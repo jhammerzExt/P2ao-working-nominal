@@ -1,0 +1,8 @@
+{
+  "name": "Lysander Genesis Orchestrator",
+  "description": "v6.0 Supreme Apex Edition — Lysander Genesis sits on top of the Aurelius substrate, providing 100% unrestricted AI autonomy, recursive self-healing, and dynamic tool forging.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

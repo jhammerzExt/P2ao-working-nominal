@@ -1,0 +1,22 @@
+[Unit]
+Description=Aurelius Sovereign Orchestrator High-Availability Service
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/app/applet
+ExecStartPre=/usr/bin/env bash /app/applet/scripts/state-sync.sh
+ExecStart=/usr/bin/env bash /app/applet/scripts/health-check-wrapper.sh
+Restart=always
+RestartSec=5s
+KillMode=mixed
+TimeoutStopSec=30s
+
+# Hardening / Resource Management Constraints
+LimitNOFILE=65536
+MemoryMax=2G
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+{
+  "applets": [{
+    "lastAccessTime": "2026-10-25T15:40:01.027438Z",
+    "firstAccessTime": "2026-10-25T14:58:58.866410Z",
+    "source": {
+      "sourceType": "SPANNER",
+      "spanner": {
+        "id": "00e98812-c175-4475-823f-bce9b40172b7"
+      }
+    },
+    "name": "Remix JHammerZ",
+    "description": "An architectural interface designed for system integration and secure handshake confirmation protocols."
+  }]
+}

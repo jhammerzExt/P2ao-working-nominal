@@ -1,0 +1,77 @@
+{
+  "name": "Aurelius Sovereign Swarm",
+  "short_name": "Aurelius",
+  "description": "Production-grade autonomous AI sovereign stack for Android Termux and PC · Master Architect Joshua Hamilton (JHammerZ)",
+  "start_url": "/",
+  "id": "com.aurelius.sovereign.swarm",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#09090b",
+  "theme_color": "#f59e0b",
+  "orientation": "any",
+  "categories": ["productivity", "utilities", "developer"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Neural Chat & Super Agent",
+      "short_name": "Chat",
+      "description": "Autonomous AI chat and conversational tool forge",
+      "url": "/#chat"
+    },
+    {
+      "name": "Android Termux Edge",
+      "short_name": "Termux",
+      "description": "Android hardware bindings and Termux edge node",
+      "url": "/#termux"
+    },
+    {
+      "name": "Function Deck & Toolbelt",
+      "short_name": "Functions",
+      "description": "Direct file and terminal function execution",
+      "url": "/#functions"
+    },
+    {
+      "name": "PC War Room",
+      "short_name": "War Room",
+      "description": "Multi-agent swarm operations and monitoring",
+      "url": "/#war-room"
+    }
+  ]
+}

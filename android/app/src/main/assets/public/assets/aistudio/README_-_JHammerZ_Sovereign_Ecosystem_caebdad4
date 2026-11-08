@@ -1,0 +1,40 @@
+﻿JHammerZ Sovereign Mobile Architecture
+A machine-native, sovereign, and resource-constrained computing environment running in Termux, anchored by .JHam high-dimensional geometric coordinate matrices.
+Core Toolkit
+Script / Component
+	Description
+	worm_memory.cjs
+	Immutable .jham state delta persistence layer.
+	aurelius_orchestrator.js
+	V8 heap-limited event heartbeat and background agent controller.
+	scan_redundancies.py
+	Workspace entropy, duplication, and diagnostic scanner.
+	organize_workspace.py
+	Automated root-level cleanup and directory structure engine.
+	archive_reader.py
+	Zero-footprint virtual RAG reader for .tar.gz archives.
+	preserve_dependencies.py
+	Transitive dependency guardian and temporal build-session peer isolator.
+	jham_vector_bridge.py
+	Natural-language intent to 16-dimensional geometric matrix projector (.JHam).
+	jham_crypto.py
+	Zero-dependency symmetric stream cipher using HMAC-SHA256 counter mode in .JHam matrix containers.
+	ecosystem_manifest.py
+	Chronological, intent-aware manifest generator and build-pulse tracker.
+	jham_snapshot_vault.py
+	Minimal-space tarball packager (.tar.gz) paired with .jham matrix metadata for native terminal recovery and autonomous AI context ingestion.
+	Snapshot Vault & Restoration
+Snapshots are stored in sanctuary/vault/ as compressed .tar.gz archives accompanied by .jham matrix manifests.
+Terminal Commands
+Action
+	Command
+	List Vault Snapshots
+	python jham_snapshot_vault.py list
+	Create Snapshot
+	python jham_snapshot_vault.py create [label]
+	Restore Snapshot via Vault
+	python jham_snapshot_vault.py restore [timestamp]
+	Native Terminal Unpack
+	tar -xzvf sanctuary/vault/ecosystem_snap_<timestamp>.tar.gz
+	Inspect Contents
+	tar -tzvf sanctuary/vault/ecosystem_snap_<timestamp>.tar.gz

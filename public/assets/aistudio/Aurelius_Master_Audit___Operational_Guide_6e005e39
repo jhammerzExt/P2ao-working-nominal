@@ -1,0 +1,134 @@
+﻿Aurelius Sovereign Edge Node: Complete System Audit & Operational Manual
+This manual provides a full audit of your sovereign edge architecture along with an end-to-end command guide for every component, port, and sub-agent running inside your PRoot Ubuntu / Termux environment.
+Part 1: Comprehensive System Audit
+Architectural Overview
+Your mobile hardware is running an ARM64 Linux Sandbox (PRoot Ubuntu on Termux) operating as a Full Computational Application Node. Unlike traditional microcontrollers or standard mobile wrappers, this architecture provides direct access to native system processes, low-level socket bindings, local filesystem operations, and background daemon persistence.
+ ┌─────────────────────────────────────────────────────────────────┐
+│                   Aurelius HUD Interface                        │
+│            (HTML5 / Tailwind Canvas @ Port 3000)                │
+└────────────────────────────────┬────────────────────────────────┘
+                                 │ HTTP / REST / WebSockets
+                                 ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   Daemonized Server Engine                      │
+│                  (PM2 Running server.ts / TSX)                  │
+├────────────────────────────────┬────────────────────────────────┤
+│  System Shell Pipeline         │  Cryptographic Mesh Layer      │
+│  (aarch64 / Linux System CLI)  │  (TCP / UDP Ports 4080 & 3080) │
+└────────────────┬───────────────┴────────────────┬───────────────┘
+                 │                                │
+                 ▼                                ▼
+┌────────────────────────────────┐ ┌──────────────────────────────┐
+│ Local Micro-LLM Runtime        │ │ Ad-Hoc Edge Mesh Peers       │
+│ (llama.cpp @ Port 8080)        │ │ (Laptops, Pis, Mobile Nodes) │
+└────────────────────────────────┘ └──────────────────────────────┘
+
+Key Component Diagnostics
+Component / Layer
+	Physical / Logical Location
+	Purpose & Capability
+	System Sandbox
+	Termux / PRoot Ubuntu (aarch64)
+	Direct filesystem access, native tool compilation, package management.
+	Process Daemon
+	pm2 / tsx
+	Background execution persistence; prevents Android OS task-killing.
+	User Interface
+	index.html (Port 3000)
+	Single-file HUD canvas with multi-agent switching and direct endpoint dispatch.
+	Mesh Gossip Node
+	Ports 4080 (P2P) & 3080 (Sync)
+	Off-grid, zero-cloud peer discovery and ad-hoc structured state sync.
+	Local LLM Engine
+	Port 8080 (llama.cpp)
+	Fully offline local inference engine running quantized micro-models.
+	Part 2: Complete Command Guide
+Section 1: Initial Workspace Setup & Cleanup
+Run these commands inside your PRoot Ubuntu terminal to ensure your environment dependencies and global runners are correctly installed.
+1. Navigate to your project directory:
+cd ~/Downloads/jhammerz_extracted
+
+2. Install essential global tooling (tsx, pm2, serve):
+npm install -g tsx pm2 serve
+
+3. Clean-install local node dependencies bypassing version conflicts:
+npm install --legacy-peer-deps
+
+Section 2: Process Management & Persistence (pm2)
+Manage and monitor background process daemons to keep your node alive continuously.
+1. Launch the backend server in background mode:
+npx pm2 start server.ts --name "aurelius-hub" --interpreter tsx
+
+2. Check active process status:
+pm2 status
+
+3. View live background logs:
+pm2 logs aurelius-hub
+
+4. Restart or stop the backend daemon:
+pm2 restart aurelius-hub
+# To stop: pm2 stop aurelius-hub
+
+5. Serve the frontend HUD interface statically (if not served via server.ts):
+pm2 start npx --name "aurelius-ui" -- serve . -l 3000
+
+Section 3: Edge Mesh & Network Testing
+Verify off-grid peer-to-peer discovery and direct local socket bindings.
+1. Identify your local subnet IP address:
+ip addr show | grep -E 'inet '
+
+(Note down your IP, e.g., 192.168.x.x)
+2. Open a direct TCP mesh listener on Port 4080:
+nc -lvnp 4080
+
+3. Send a test packet from another local peer (Laptop/Phone on same Wi-Fi):
+echo '{"peer_id":"node_02","status":"online"}' | nc <YOUR_PHONE_IP> 4080
+
+4. Audit active listening ports on your device:
+netstat -tuln | grep -E '3000|4080|3080|8080'
+
+Section 4: Offline Local LLM Runtime Setup (llama.cpp)
+Run on-device AI inference without external cloud API dependencies.
+1. Install llama.cpp binary package:
+pkg install llama.cpp -y
+
+2. Download a lightweight quantized micro-model (e.g., Qwen2.5 0.5B Instruct GGUF):
+curl -L -O https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf
+
+3. Launch the local LLM server on Port 8080:
+llama-server --port 8080 -m qwen2.5-0.5b-instruct-q4_k_m.gguf -c 2048 --host 0.0.0.0
+
+4. Query your local on-device LLM via REST API:
+curl http://localhost:8080/v1/chat/completions \
+ -H "Content-Type: application/json" \
+ -d '{
+   "messages": [{"role": "user", "content": "Confirm sovereign status."}]
+ }'
+
+Section 5: Multi-Agent Hub Verification Commands
+Test every endpoint exposed by your local backend engine directly from terminal.
+1. Check core Hub status:
+curl http://localhost:3000/api/status
+
+2. Test Aurelius Prime Orchestrator endpoint:
+curl -X POST http://localhost:3000/api/swarm/orchestrate \
+ -H "Content-Type: application/json" \
+ -d '{"prompt": "Analyze system capabilities"}'
+
+3. Test Termux Execution Engine endpoint:
+curl -X POST http://localhost:3000/api/exec \
+ -H "Content-Type: application/json" \
+ -d '{"command": "uname -a && free -m"}'
+
+4. Test Mesh Gossip Agent endpoint:
+curl -X POST http://localhost:3000/api/mesh/peer-sync \
+ -H "Content-Type: application/json" \
+ -d '{"action": "ping", "target": "local_subnet"}'
+
+Part 3: Operational Checklist for Full Verification
+1. [ ] PRoot Environment: Terminal initialized in ~/Downloads/jhammerz_extracted.
+2. [ ] Dependencies: Installed with npm install --legacy-peer-deps.
+3. [ ] Daemon Status: pm2 status shows aurelius-hub in online state.
+4. [ ] Web Canvas UI: Open browser to http://localhost:3000 to interact with the HUD.
+5. [ ] P2P Mesh Listener: Sockets listening on ports 4080 and 3080.
+6. [ ] Offline Inference: llama-server listening on port 8080 for zero-cloud LLM queries.

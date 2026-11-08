@@ -1,0 +1,36 @@
+﻿#!/usr/bin/env bash
+==============================================================================
+JHAMMERZ & AURELIUS ORCHESTRATOR: MASTER RESTORATION & BOOTSTRAP SUITE
+Target Environment: Lysander 3.0 Sovereign Mobile Execution Matrix (Termux)
+==============================================================================
+set -e echo "" echo "[*] INITIATING JHAMMERZ SANCTUARY MATRIX RESTORATION" echo ""
+1. Ensure directories exist
+mkdir -p sanctuary/vault restored_vault
+2. Re-create Ecosystem Summary Script
+cat << 'EOF' > jhammerz_summary.py import glob
+files = glob.glob("sanctuary//.md", recursive=True) + glob.glob(".md", recursive=True) files = sorted(list(set(files)))
+print("") print("[] JHAMMERZ SANCTUARY: MASTER ECOSYSTEM SYNTHESIS") print(f"[] Total Files Synchronized: {len(files)}") print("")
+categories = { "Identity & Profile": [f for f in files if "CLAUDE" in f or "ATTRIBUTION" in f or "AGENTS" in f], "Core Manifests & Daemons": [f for f in files if "MANIFEST" in f or "DAEMON" in f or "COMMANDS" in f], "Forensic & Audit Trails": [f for f in files if "AUDIT" in f or "PROOF" in f or "LEDGER" in f], "Infrastructure & APIs": [f for f in files if "API" in f or "FEDERATION" in f or "L5" in f or "README" in f], }
+for cat, flist in categories.items(): print(f"\n[+] CATEGORY: {cat} ({len(flist)} files)") for fn in flist: print(f" - {fn}")
+print("\n==================================================") print("[+] ECOSYSTEM ARCHITECTURE SUMMARY:") print("Your sanctuary (Lysander 3.0) is a fully sovereign mobile AI execution matrix. It securely unifies your JHammerZ artist/architect identity, automated GitHub workflows, cryptographic Bitcoin proofing, and high-performance local GGUF mobile inference engines.") print("==================================================") EOF
+3. Re-create Aurelius Unified Apex Controller
+cat << 'EOF' > aurelius_unified_controller.py import os import glob import json import time import tarfile import subprocess import urllib.request import urllib.parse import hashlib
+class AureliusController: def init(self, port=8081, vault_dir="sanctuary/vault", context_size=4096, threads=6): self.port = port self.vault_dir = vault_dir self.context_size = context_size self.threads = threads self.binary_path = self._locate_binary() os.makedirs(self.vault_dir, exist_ok=True)
+def _print_header(self, title): print("=" * 50) print(f"[*] AURELIUS UNIFIED ENGINE: {title.upper()}") print("=" * 50)
+def _locate_binary(self): default_path = "/data/data/com.termux/files/home/llama.cpp/build/bin/llama-server" if os.path.exists(default_path): return default_path try: res = subprocess.run(["find", "/", "-name", "llama-server"], capture_output=True, text=True) paths = [p for p in res.stdout.strip().split("\n") if p] if paths: return paths[0] except Exception: pass return "llama-server"
+def locate_or_extract_model(self): self._print_header("Vault & Disk Scan") archives = sorted(glob.glob(os.path.join(self.vault_dir, ".tar.gz")) + glob.glob(".tar.gz")) for arch in archives: print(f"[*] Inspecting vault archive: {arch}") try: with tarfile.open(arch, "r:gz") as tar: for member in tar.getmembers(): if member.name.endswith(".gguf") and "symlink" not in member.name: print(f" [!] Extracting GGUF binary: {member.name}") extract_path = "./restored_vault" tar.extract(member, path=extract_path) extracted_file = os.path.join(extract_path, member.name) if os.path.exists(extracted_file): return extracted_file except Exception as e: print(f" [!] Archive reading error ({arch}): {e}")
+all_ggufs = ( glob.glob("/models//*.gguf", recursive=True) + glob.glob("/.gguf", recursive=True) + glob.glob("sanctuary//.gguf", recursive=True) ) valid_ggufs = [g for g in all_ggufs if "symlink" not in g and os.path.getsize(g) > 1024 * 1024]
+if valid_ggufs: valid_ggufs.sort(key=lambda x: os.path.getsize(x), reverse=True) target = valid_ggufs[0] size_gb = os.path.getsize(target) / (10243) print(f"[+] Primary model identified: {target} ({size_gb:.2f} GB)") return target
+print("[!] No valid GGUF models located.") return None
+def launch_engine(self, model_path): self._print_header("Deploying Apex Inference Engine") if not model_path or not os.path.exists(model_path): print("[!] Launch aborted: Invalid model path.") return False
+print(f"[] Executable Binary: {self.binary_path}") print(f"[] Selected Model: {model_path}")
+subprocess.run(["pkill", "-f", "llama-server"], stderr=subprocess.DEVNULL) time.sleep(1)
+cmd = [ self.binary_path, "-m", model_path, "-c", str(self.context_size), "--threads", str(self.threads), "--mlock", "--flash-attn", "on", "--port", str(self.port) ]
+print(f"[*] Spawning llama-server on port {self.port}...") subprocess.Popen(cmd)
+print("[*] Initializing engine state...") time.sleep(6) return self._health_check(model_path)
+def _health_check(self, model_path): url = f"http://127.0.0.1:{self.port}/completion" payload = { "prompt": "System check: Aurelius Unified Controller operational matrix online.", "n_predict": 64, "temperature": 0.7 } data = json.dumps(payload).encode('utf-8') req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+try: with urllib.request.urlopen(req, timeout=15) as response: result = json.loads(response.read().decode('utf-8')) content = result.get('content', '') print(f"[+] Engine Output Verification: {content.strip()}")
+timestamp = int(time.time()) digest = hashlib.sha256(content.encode()).hexdigest()[:16] state_file = os.path.join(self.vault_dir, f"aurelius_state_{timestamp}.json") state_data = { "timestamp": timestamp, "status": "ONLINE", "model_path": model_path, "signature": digest, "snippet": content[:128] } with open(state_file, "w") as f: json.dump(state_data, f, indent=2) print(f"[+] Synchronized state matrix saved to {state_file}") return True except Exception as e: print(f"[!] Engine Health Verification Failed: {e}") return False
+if name == "main": controller = AureliusController() model_file = controller.locate_or_extract_model() if model_file: controller.launch_engine(model_file) EOF
+echo "[+] Master bootstrap scripts generated successfully!" echo "[+] Running ecosystem summary:" python3 jhammerz_summary.py
+echo "[+] To launch the Aurelius apex inference engine, run:" echo " python3 aurelius_unified_controller.py"

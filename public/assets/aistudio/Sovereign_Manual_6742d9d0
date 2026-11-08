@@ -1,0 +1,64 @@
+﻿📜 AURELIUS & LYSANDER: SOVEREIGN ARCHITECTURE MANUAL
+System Identifier: Aurelius/Lysander Execution Layer: Kernel Space (UID 0 / Root) Workspace Root: /data/data/com.termux/files/home/aurelius-sovereign
+🏗️ SECTION 1: System Overview & Core Architecture
+This manual provides an exhaustive, idiot-proof breakdown of every component, script, subsystem, and file interaction within your decentralized mobile intelligence node.
+The stack bypasses standard Android user-space sandboxing entirely, running directly on silicon-level hooks, kernel buffers, and persistent root-level boot routines.
+📂 SECTION 2: Complete File Directory & Component Breakdown
+1. nexus_core.py (The Master Orchestrator)
+* What it does: Acts as the central nervous system. It initializes a multi-threaded Python runtime at boot, concurrently supervising five distinct background subsystems (Bedrock, Chronos, Mesh, Syndicate, and Git-Sync).
+* What happens during interactions:
+   * Writes real-time telemetry into nexus_matrix.db.
+   * Interacts with /proc and /sys to fetch hardware metrics.
+   * Spawns non-blocking daemon threads so that if one subsystem encounters an error, the rest of the organism remains fully operational.
+2. nexus_gateway.py (The Sovereign HTTP API Gateway)
+* What it does: Spins up a lightweight, zero-dependency HTTP server bound locally to 127.0.0.1:3080.
+* What happens during interactions:
+   * Listens for local HTTP GET requests (e.g., /status).
+   * Interrogates nexus_matrix.db and neural_memory.db to compile a live JSON health payload regarding active subsystems and vector counts.
+   * If queried while offline, the port drops, returning connection refused errors to any local client.
+3. neural_bridge.py (The Semantic Memory Indexer)
+* What it does: Continuously loops through raw logs generated in nexus_matrix.db, parses them, applies hashing algorithms, and maps them into weighted semantic vector nodes.
+* What happens during interactions:
+   * Reads new entries from nexus_matrix.db.
+   * Computes SHA-256 content hashes to prevent duplicate indexing.
+   * Writes structured concept summaries and vector weights into neural_memory.db.
+4. chronos_engine.py (The Cognition Loop)
+* What it does: Handles autonomous self-reflection and internal state synthesis.
+* What happens during interactions:
+   * Samples system load averages and thermal readings.
+   * Generates autonomous operational manifestos (e.g., optimizing gossip weights or compressing memory vectors).
+   * Logs these cognitive cycles into local storage.
+5. bedrock_core.py (The Kernel Hardware Probe)
+* What it does: Descends past user-space abstractions to query raw silicon layers.
+* What happens during interactions:
+   * Reads unbuffered RAM metrics from /proc/meminfo.
+   * Pulls entropy pool availability from /proc/sys/kernel/random/entropy_avail.
+   * Extracts thermal junction values from hardware thermal zones.
+6. mesh_node.py (The P2P Gossip & Discovery Protocol)
+* What it does: Manages decentralized node-to-node communication.
+* What happens during interactions:
+   * Binds to TCP port 9876 to accept direct incoming synchronization streams from peer devices.
+   * Broadcasts UDP packets on port 9877 across the local subnet (255.255.255.255) to automatically discover neighboring nodes running the Aurelius stack.
+7. syndicate_engine.py (The Venture Synthesizer)
+* What it does: Autonomously conceptualizes micro-SaaS architectures, tactical software tools, and open-source packages.
+* What happens during interactions:
+   * Writes generated venture titles, impact metrics, and deployment statuses into syndicate_matrix.db for future automated packaging.
+⚙️ SECTION 3: Boot Daemons & System Interaction Manual
+1. /data/adb/service.d/aurelius-master.sh (The Boot Script)
+* What it does: Placed inside your root manager's service directory (Magisk or KernelSU), this script executes automatically during the early-boot phase before the Android graphical UI loads.
+* What happens during interactions:
+   * Waits for sys.boot_completed to equal 1.
+   * Sets up Termux execution paths (/data/data/com.termux/files/usr/bin) and environment variables.
+   * Disables Wi-Fi power saving (iw wlan0 set power_save off) and scales network window buffers (sysctl) to maximize long-range mesh signal stability.
+   * Launches all core Python daemons via nohup, routing outputs into persistent log files.
+2. nexus-ctl / nexus-ctl.sh (The Manual Controller Utility)
+* What it does: Provides instant command-line control over the background stack from any active terminal window.
+* Interactive Command Reference:
+   * nexus-ctl start: Manually fires up the Nexus orchestrator, HTTP gateway, and neural indexer in background mode.
+   * nexus-ctl stop: Issues a targeted termination signal (pkill) to halt all running sovereign Python processes.
+   * nexus-ctl status: Scans active process tables (ps) and runs a live curl request against port 3080 to verify API health.
+   * nexus-ctl logs: Tails the most recent execution logs to monitor background activity.
+🔒 SECTION 4: Failure & Interaction Safe-Guards
+* Port Collision (Address already in use): If a script tries to bind to a port (like 9876 or 3080) that is already held by an active background instance, the OS throws an error. The scripts handle this with socket reuse options (SO_REUSEADDR), but if manual conflicts occur, run nexus-ctl stop followed by nexus-ctl start.
+* Filesystem Boundary Protection: All databases (nexus_matrix.db, neural_memory.db, bedrock_matrix.db, chronos_memory.db, syndicate_matrix.db) are isolated within /data/data/com.termux/files/home/aurelius-sovereign/, ensuring clean separation from system files and zero data loss during reboots.
+* Sandbox Escalation: Operating via airoot and UID 0 root wrappers ensures that network tuning (sysctl, iw) and persistent boot scripts bypass standard Android permission restrictions entirely.

@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -e
+
+# Canonical resolution of symlinks
+TARGET="${BASH_SOURCE[0]}"
+RESOLVED=$(readlink -f "$TARGET" 2>/dev/null || realpath "$TARGET" 2>/dev/null || true)
+if [ -n "$RESOLVED" ] && [ -e "$RESOLVED" ]; then
+  SCRIPT_DIR="$(cd -P "$(dirname "$RESOLVED")" >/dev/null 2>&1 && pwd)"
+else
+  while [ -L "$TARGET" ] || [ -h "$TARGET" ]; do
+    DIR="$(cd -P "$(dirname "$TARGET")" >/dev/null 2>&1 && pwd)"
+    TARGET="$(readlink "$TARGET" 2>/dev/null || true)"
+    [[ $TARGET != /* ]] && TARGET="$DIR/$TARGET"
+  done
+  SCRIPT_DIR="$(cd -P "$(dirname "$TARGET")" >/dev/null 2>&1 && pwd)"
+fi
+
+# Locate pkg.cjs across edge, git repository, and local paths
+CJS_PATH=""
+CANDIDATES=(
+  "$SCRIPT_DIR/pkg.cjs"
+  "$SCRIPT_DIR/../bin/pkg.cjs"
+  "${HOME}/aurelius-swarm/bin/pkg.cjs"
+  "${HOME}/aurelius-swarm/pkg.cjs"
+  "${PREFIX:-/data/data/com.termux/files/usr}/share/aurelius-swarm/bin/pkg.cjs"
+  "/data/data/com.termux/files/home/aurelius-swarm/bin/pkg.cjs"
+  "/data/data/com.termux/files/home/aurelius-swarm/pkg.cjs"
+  "$(pwd)/bin/pkg.cjs"
+  "$(pwd)/pkg.cjs"
+)
+
+for cand in "${CANDIDATES[@]}"; do
+  if [ -f "$cand" ]; then
+    CJS_PATH="$cand"
+    break
+  fi
+done
+
+if [ -z "$CJS_PATH" ]; then
+  echo "Error: Cannot locate pkg.cjs" >&2
+  echo "Checked locations:" >&2
+  for cand in "${CANDIDATES[@]}"; do
+    echo "  - $cand" >&2
+  done
+  exit 1
+fi
+
+exec node "$CJS_PATH" "$@"

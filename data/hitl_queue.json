@@ -1,0 +1,62 @@
+[
+  {
+    "id": "hitl-001",
+    "title": "Deploy Ring_-3 Superluminal Memory Interlock",
+    "source": "https://jhammerz.github.io/workflows/ring3-deploy.json",
+    "type": "CODE_DEPLOY",
+    "proposedBy": "Lysander 4.0 DeepMind",
+    "status": "PENDING_REVIEW",
+    "riskScore": "MEDIUM",
+    "hfidAttested": false,
+    "details": "Autonomous kernel hook to bypass user-space context switches for 0.08ms inference TTFT.",
+    "payload": {
+      "targetSubstrate": "Alpha-14 Mesh",
+      "kernelRing": -3,
+      "memoryPages": 1024
+    },
+    "createdAt": "2026-10-29T19:21:14.277Z",
+    "executionState": "PENDING"
+  },
+  {
+    "id": "hitl-002",
+    "title": "Multi-Repo Invariant Synchronization (11 Repos)",
+    "source": "https://jhammerz.github.io/workflows/multi-repo-sync.json",
+    "type": "SWARM_ESCALATION",
+    "proposedBy": "Manus AI Co-Architect",
+    "status": "PENDING_REVIEW",
+    "riskScore": "LOW",
+    "hfidAttested": true,
+    "hfidSignature": "0x7f38fa8ce6a6d3abd6e6d1a836958d",
+    "details": "Propagate HEO v4.2 and HFID consensus schemas across all repositories simultaneously.",
+    "payload": {
+      "repos": [
+        "jhammerz.github.io",
+        "Sovereign-JHam-Core",
+        "JHAMMERZ_OS"
+      ],
+      "commits": 9642
+    },
+    "createdAt": "2026-10-29T18:58:14.277Z",
+    "executionState": "PENDING"
+  },
+  {
+    "id": "hitl-003",
+    "title": "6-Hour Self-Mutating Signal Rotation Phase Shift",
+    "source": "https://jhammerz.github.io/workflows/signal-rotation.json",
+    "type": "MUTATE_SIGNAL",
+    "proposedBy": "Colonel Ro Private Ghost",
+    "status": "APPROVED",
+    "riskScore": "LOW",
+    "hfidAttested": true,
+    "hfidSignature": "0x8836e9c9888f60bd07693",
+    "details": "Rotate cryptographic carrier frequencies on Springfield Zero-Node to suppress adversarial eavesdropping.",
+    "payload": {
+      "driftTolerance": "<0.0001Hz",
+      "phase": "ROTATION_COMPLETED"
+    },
+    "createdAt": "2026-10-29T16:33:14.277Z",
+    "resolvedAt": "2026-10-29T16:38:14.277Z",
+    "executionState": "IMPLEMENTED",
+    "executionOutput": "Carrier frequencies on Springfield Zero-Node rotated (Phase NOMINAL, drift <0.0001Hz). Active carrier locked."
+  }
+]

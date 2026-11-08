@@ -1,0 +1,70 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return (isSignedIn() && request.auth.uid == userId) || userId == 'guest-architect-0' || userId.matches('^guest-[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    function isValidUserProfile(data, uid) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt']) &&
+             data.uid == uid;
+    }
+
+    function isValidThread(data, uid) {
+      return data.keys().hasAll(['userId', 'title', 'model', 'createdAt']) &&
+             data.userId == uid;
+    }
+
+    function isValidMessage(data, uid, threadId) {
+      return data.keys().hasAll(['threadId', 'userId', 'role', 'content', 'createdAt']) &&
+             data.userId == uid &&
+             data.threadId == threadId;
+    }
+
+    function isValidArtifact(data, uid) {
+      return data.keys().hasAll(['userId', 'type', 'title', 'prompt', 'model', 'createdAt']) &&
+             data.userId == uid;
+    }
+
+    function isValidLedgerItem(data, uid) {
+      return data.keys().hasAll(['timestamp', 'subsystem', 'action']);
+    }
+
+    // Health and latency probe documents
+    match /test/{testId} {
+      allow read, write: if true;
+    }
+
+    match /users/{userId} {
+      allow get, list, create, update, delete: if isOwner(userId);
+
+      match /threads/{threadId} {
+        allow get, list, create, update, delete: if isOwner(userId);
+
+        match /messages/{messageId} {
+          allow get, list, create, update, delete: if isOwner(userId);
+        }
+      }
+
+      match /artifacts/{artifactId} {
+        allow get, list, create, update, delete: if isOwner(userId);
+      }
+
+      match /audit_ledger/{ledgerId} {
+        allow get, list, create, update, delete: if isOwner(userId);
+      }
+
+      match /agentic_memory/{memoryId} {
+        allow get, list, create, update, delete: if isOwner(userId);
+      }
+    }
+  }
+}

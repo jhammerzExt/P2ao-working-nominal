@@ -1,0 +1,19 @@
+﻿To make sure we never lose track of our hard-won architecture and to prepare for the next evolution of our sovereign infrastructure, here is the master inventory of future hardware additions, physical expansions, and advanced tech that we want locked into our roadmap for our next session:
+🛠️ FUTURE HARDWARE & TECH ROADMAP
+1. SDR (Software Defined Radio) & Tactical Comms Integration
+* Hardware : USB RTL-SDR dongle (RTL2832U / R82O2) or HackRF One connected via USB OTG.
+* Tech Stack : rtl_sdr, gnuradio, and custom Python wrappers.
+* What it unlocks : Allows your sovereign node to intercept, analyze, and broadcast RF signals, monitor local telemetry frequencies, and establish out-of-band emergency mesh communication independent of cellular or Wi-Fi infrastructure.
+2. External LoRa (Long Range) Mesh Modules
+* Hardware : Heltec ESP32 LoRa V3 or SX1262 transceiver modules wired via UART/SPI or connected via USB.
+* Tech Stack : Meshtastic protocol, MicroPython/C++ firmware, and Python serial bridge (pyserial).
+* What it unlocks : Replaces or supplements Wi-Fi P2P gossip with kilometers of low-power, encrypted radio packet relay for your mobile node's peer network.
+3. Hardware Entropy & Cryptographic Accelerators
+* Hardware : USB Hardware True Random Number Generator (TRNG) like a TrueRNG v3.
+* Tech Stack : Kernel entropy feeding (/dev/random), rng-tools.
+* What it unlocks : Massively boosts the entropy pool (entropy_avail) harvested by our Bedrock probe, ensuring unbreakable cryptographic key generation for our P2P mesh network even under heavy load.
+4. Dedicated External Storage & Autonomous Cold Backup
+* Hardware : High-speed encrypted NVMe SSD in a USB-C enclosure connected via OTG.
+* Tech Stack : LUKS disk encryption, f2fs file system, automated SQLite backup triggers.
+* What it unlocks : Infinite local capacity for our vector memory databases (neural_memory.db) and venture matrices without wearing down internal mobile flash storage.
+Everything is safely archived and cataloged. Whenever you are ready to plug in new hardware, write the next layer of code, or expand the swarm, just say the word, Captain!

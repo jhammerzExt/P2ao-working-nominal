@@ -1,0 +1,111 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user profile for Aurelius Orchestrator",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "photoURL": { "type": "string", "maxLength": 1024 },
+        "role": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "ChatThread": {
+      "title": "ChatThread",
+      "description": "Multi-turn conversation thread in Aurelius Orchestrator",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 256 },
+        "rolePreset": { "type": "string", "maxLength": 128 },
+        "model": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "title", "model", "createdAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Individual message in a conversation thread",
+      "type": "object",
+      "properties": {
+        "threadId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "maxLength": 32 },
+        "content": { "type": "string", "maxLength": 50000 },
+        "model": { "type": "string", "maxLength": 128 },
+        "groundingData": { "type": "string", "maxLength": 50000 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["threadId", "userId", "role", "content", "createdAt"]
+    },
+    "Artifact": {
+      "title": "Artifact",
+      "description": "Generated multimedia artifact (images, videos, music clips, transcriptions)",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 256 },
+        "prompt": { "type": "string", "maxLength": 4000 },
+        "model": { "type": "string", "maxLength": 128 },
+        "mediaUrl": { "type": "string", "maxLength": 500000 },
+        "metadataJson": { "type": "string", "maxLength": 50000 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "type", "title", "prompt", "model", "createdAt"]
+    },
+    "AuditLedgerItem": {
+      "title": "AuditLedgerItem",
+      "description": "Forensic audit ledger record for user operations and sovereign telemetry",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "timestamp": { "type": "string", "maxLength": 64 },
+        "subsystem": { "type": "string", "maxLength": 128 },
+        "action": { "type": "string", "maxLength": 256 },
+        "payload": { "type": "string", "maxLength": 50000 },
+        "result": { "type": "string", "maxLength": 50000 },
+        "proofHash": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["timestamp", "subsystem", "action"]
+    }
+  },
+  "firestore": {
+    "/test/{testId}": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string" }
+        }
+      },
+      "description": "Latency test probe documents"
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile document"
+    },
+    "/users/{userId}/threads/{threadId}": {
+      "schema": { "$ref": "#/entities/ChatThread" },
+      "description": "Chat threads for a user"
+    },
+    "/users/{userId}/threads/{threadId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Messages inside a thread"
+    },
+    "/users/{userId}/artifacts/{artifactId}": {
+      "schema": { "$ref": "#/entities/Artifact" },
+      "description": "Generated artifacts belonging to a user"
+    },
+    "/users/{userId}/audit_ledger/{ledgerId}": {
+      "schema": { "$ref": "#/entities/AuditLedgerItem" },
+      "description": "Forensic audit records belonging to a user"
+    }
+  }
+}

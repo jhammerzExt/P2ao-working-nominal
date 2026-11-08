@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+INSTALL_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+exec node "$INSTALL_DIR/bin/aurelius.cjs" "$@"
